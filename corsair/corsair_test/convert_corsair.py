@@ -1,11 +1,10 @@
 """
 Mesh conversion script for the Corsair 3D simulation (Euler & Stokes).
-Adapted from the F35 wing pipeline by [teammate].
 
 Input:  corsair_domain.msh  — MSH 2.2 mesh containing the full boxed domain
                                (plane body + surrounding fluid box).
-Output: corsair_domain.xdmf  — Volumetric mesh (tetrahedral cells, "Fluid" region)
-        corsair_facets.xdmf  — Surface mesh (triangular cells, boundary tags)
+Output: corsair_tetra.xdmf  — Volumetric mesh (tetrahedral cells, "Fluid" region)
+        corsair_tri.xdmf  — Surface mesh (triangular cells, boundary tags)
 
 Physical tags expected in the .msh file (define these in Gmsh):
     Volume:
@@ -61,8 +60,8 @@ def convert(msh_file: str = "corsair_domain.msh") -> None:
         cells={"tetra": tetra_cells},
         cell_data={"Grid": [tetra_data]},
     )
-    meshio.write("corsair_domain.xdmf", volume_mesh)
-    print("Written: corsair_domain.xdmf")
+    meshio.write("corsair_tetra.xdmf", volume_mesh)
+    print("Written: corsair_tetra.xdmf")
 
     # ------------------------------------------------------------------
     # 2. FACET/SURFACE MESH — triangular cells (boundary conditions)
@@ -81,8 +80,8 @@ def convert(msh_file: str = "corsair_domain.msh") -> None:
         cells={"triangle": tri_cells},
         cell_data={"Grid": [tri_data]},
     )
-    meshio.write("corsair_facets.xdmf", facet_mesh)
-    print("Written: corsair_facets.xdmf")
+    meshio.write("corsair_tri.xdmf", facet_mesh)
+    print("Written: corsair_tri.xdmf")
 
     # ------------------------------------------------------------------
     # 3. DEBUG / SANITY CHECK
