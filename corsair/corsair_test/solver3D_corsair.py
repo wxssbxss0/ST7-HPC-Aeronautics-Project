@@ -43,13 +43,13 @@ MU    = 1.0    # [Pa·s] dynamic viscosity (Stokes regime — change for real ai
 # ---------------------------------------------------------------------------
 # 1. Load Mesh
 # ---------------------------------------------------------------------------
-with io.XDMFFile(MPI.COMM_WORLD, "corsair_domain.xdmf", "r") as xdmf:
+with io.XDMFFile(MPI.COMM_WORLD, "corsair_tetra.xdmf", "r") as xdmf:
     domain = xdmf.read_mesh(name="Grid")
 
 # Build facet-to-cell connectivity (required for boundary-condition look-ups)
 domain.topology.create_connectivity(domain.topology.dim - 1, domain.topology.dim)
 
-with io.XDMFFile(MPI.COMM_WORLD, "corsair_facets.xdmf", "r") as xdmf:
+with io.XDMFFile(MPI.COMM_WORLD, "corsair_tri.xdmf", "r") as xdmf:
     facet_tags = xdmf.read_meshtags(domain, name="Grid")
 
 # ---------------------------------------------------------------------------
