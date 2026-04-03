@@ -16,7 +16,7 @@ import basix.ufl
 # CONFIG
 # ======================
 
-TEST_MODE = True       # <- Set True for local testing (10 steps only), False for cluster
+TEST_MODE = False       # <- Set True for local testing (10 steps only), False for cluster
 
 if TEST_MODE:
     T_final        = 0.05
