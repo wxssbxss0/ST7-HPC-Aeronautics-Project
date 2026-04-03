@@ -202,10 +202,18 @@ w_h    = fem.Function(W)
 
 # Direct solver: MUMPS LU factorisation
 # Best choice for moderate-size 3D problems; scales well up to ~32 MPI ranks
-solver = PETSc.KSP().create(domain.comm)
+"""solver = PETSc.KSP().create(domain.comm)
 solver.setType(PETSc.KSP.Type.PREONLY)
 solver.getPC().setType(PETSc.PC.Type.LU)
-solver.getPC().setFactorSolverType("mumps")
+solver.getPC().setFactorSolverType("mumps") """ 
+
+#Alternative: GMRES+HYPRE
+
+solver = PETSc.KSP().create(domain.comm)
+solver.setType(PETSc.KSP.Type.GMRES)
+solver.getPC().setType(PETSc.PC.Type.HYPRE)
+solver.setTolerances(rtol=1e-6, atol=1e-10, max_it=500)
+solver.setGMRESRestart(100)
 
 # =====================
 # 6 - HELPER FUNCTIONS
